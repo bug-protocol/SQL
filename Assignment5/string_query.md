@@ -1,19 +1,21 @@
 # Assignment 5 - String queries!
 
 ![alt text](1_sc.png) 
-Which one will run faster and why 
+## Which one will run faster and why 
 
-# name = upper('ABC') will be the faster one 
+#### name = upper('ABC') will be the faster one 
 
-# Because upper(name) = 'ABC' is gonna compare with each row present in the table and update 
+#### Because upper(name) = 'ABC' is gonna compare with each row present in the table and update 
 
 Here SQL must: 
 
 SQL Page 1 
 
-# Read each row # Apply UPPER() on every name # Then compare 
+#### Read each row => Apply UPPER() on every name => Then compare 
 
-Abc => ABC # abc => ABC # xyz => XYZ but not matches ABC in case if where used 
+- Abc => ABC 
+- abc => ABC 
+- xyz => XYZ but not matches ABC in case if where used 
 
 While 
 
@@ -21,23 +23,45 @@ Name = upper('ABC') will just become ABC
 
 and IN(Upper()) will eventually become name in ('ABC') hence similar to  name = 'ABC' 
 
-check on this one 
+![TRIM1](2_ss.png)
+![TRIM2](3_ss.png)
+## check on this one 
 
-TRIM is not gonna work in here because if there would've been spaces 
+#### TRIM is not gonna work in here because if there would've been spaces 
 
-'     %Delhi%  '  => it would eventually become %Delhi% so TRIM is unnecessary hence It'll accept anything like New Delhi, Greater Delhi area 
+ - '     %Delhi%  '  => it would eventually become %Delhi% so TRIM is unnecessary hence It'll accept anything like New Delhi, Greater Delhi area 
 
-Ques => How to get the camel case for it 
+![CAMEL case][4_ss.png]
+## Ques => How to get the camel case for it 
 
 SQL Page 2 
+```
+SELECT 
+   rep_name,
+   INITCAP(rep_name) AS camel_case_name 
+   FROM sales; 
+```
+ - INITCAP provide the feature to make camel_case 
 
-SELECT rep_name, INITCAP(rep_name) AS camel_case_name FROM sales; INITCAP provide the feature to make camel_case 
+#### We can write manual queries =>
 
-# We can write manual queries => SELECT CONCAT( UPPER(SUBSTRING(rep_name, 1, 1)), LOWER(SUBSTRING(rep_name, 2)) ) AS proper_name FROM sales; 
+```
+SELECT CONCAT( UPPER(SUBSTRING(rep_name, 1, 1)), 
+  LOWER(SUBSTRING(rep_name, 2)) ) AS proper_name 
+  FROM sales; 
+```
 
-# but this is just gonna give Amit kumar 
+ -  but this is just gonna give Amit kumar 
 
-While SELECT CONCAT( UPPER(LEFT(SUBSTRING_INDEX(rep_name, ' ', 1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(rep_name, ' ', 1), 2)), ' ', UPPER(LEFT(SUBSTRING_INDEX(rep_name, ' ', -1), 1)), LOWER(SUBSTRING(SUBSTRING_INDEX(rep_name, ' ', -1), 2)) ) AS proper_name FROM sales; # and this might work for names with 2 words but won't work same for 3 or 4 words, hence initcap() is best 
+While 
+```
+SELECT CONCAT( UPPER(LEFT(SUBSTRING_INDEX(rep_name, ' ', 1), 1)), 
+LOWER(SUBSTRING(SUBSTRING_INDEX(rep_name, ' ', 1), 2)), ' ', 
+UPPER(LEFT(SUBSTRING_INDEX(rep_name, ' ', -1), 1)), 
+LOWER(SUBSTRING(SUBSTRING_INDEX(rep_name, ' ', -1), 2)) ) AS proper_name FROM sales; 
+```
+
+#### and this might work for names with 2 words but won't work same for 3 or 4 words, hence initcap() is best 
 
 Which lower works faster and why 
 
