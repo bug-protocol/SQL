@@ -31,7 +31,7 @@ and IN(Upper()) will eventually become name in ('ABC') hence similar to  name = 
 
  - '     %Delhi%  '  => it would eventually become %Delhi% so TRIM is unnecessary hence It'll accept anything like New Delhi, Greater Delhi area 
 
-![CAMEL case][4_ss.png]
+![CAMEL case](4_ss.png)
 ## Ques => How to get the camel case for it 
 
 SQL Page 2 
@@ -63,29 +63,39 @@ LOWER(SUBSTRING(SUBSTRING_INDEX(rep_name, ' ', -1), 2)) ) AS proper_name FROM sa
 
 #### and this might work for names with 2 words but won't work same for 3 or 4 words, hence initcap() is best 
 
-Which lower works faster and why 
+![lower](5_ss.png)
+## Which lower works faster and why 
+![Lower](6_ss.png)
+- Same ques => again same scenerio 
+- In left => it'll lower for each row hence slower 
+- In right => lowers just once and compares hence comparatively faster 
 
-Same ques => again same scenerio # In left => it'll lower for each row hence slower # In right => lowers just once and compares hence comparatively faster 
+![Replace](7_ss.png)
+ - Does it consider two params or more than 2, 
+ - Replace takes up 3 params => REPLACE(original_string, old_value, new_value) 
 
-Does it consider two params or more than 2, Replace takes up 3 params => REPLACE(original_string, old_value, new_value) 
+![Replace](8_ss.png)
 
-SQL Page 3 
-
-For doing this can we use replace function or anything else Replace might fail here => hence we need to write manual query here 
-
+- For doing this can we use replace function or anything else Replace might fail here => hence we need to write manual query here 
+```
 SELECT CONCAT( SUBSTRING_INDEX(name, ' ', 2), '_', SUBSTRING_INDEX(name, ' ', -1) ) FROM sales; 
+```
+- Here Substring_index(name, ' ', 2) gets us 2 first words separated by space. 
 
-Here Substring_index(name, ' ', 2) gets us 2 first words separated by space. 
+- And substring_index(name, ' ', -1) gets us last word separated by space. and we concatenated these both using '_'. 
 
-And substring_index(name, ' ', -1) gets us last word separated by space. and we concatenated these both using '_'. 
+![Concat](9_ss.png)
+## Gotta read
 
-Gotta read '||' => works as concatenation operator But, anything + NULL = NULL 
+  - '||' => works as concatenation operator 
+  - But, anything + NULL = NULL 
 
-# ' Concat ' => MySQL treats null in concat() as Null hence output will be null But postgres works differently hence it'll give 'Electronics' 
+ - ' Concat ' => MySQL treats null in concat() as Null hence output will be null But postgres works differently hence it'll give 'Electronics' 
 
-# Concat_WS() => with separator Here the syntax is => CONCAT_WS(separator, value1, value2, ...) # it ignores null values 
+ -  Concat_WS() => with separator Here the syntax is => CONCAT_WS(separator, value1, value2, ...) # it ignores null values 
+![Substring](10_ss.png)
+Read up!! 
+- -ve indexes work in sql Alternate way: SELECT SUBSTRING('Amit Kumar' FROM 1 FOR 4); 
 
-Read up!! -ve indexes work in sql Alternate way: SELECT SUBSTRING('Amit Kumar' FROM 1 FOR 4); 
-
-SQL Page 4 
+ 
 
